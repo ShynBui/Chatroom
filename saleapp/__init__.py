@@ -3,16 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import quote
 import cloudinary
 from flask_login import LoginManager
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
 
 app.secret_key = '689567gh$^^&*#%^&*^&%^*DFGH^&*&*^*'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost/quanlybansach?charset=utf8mb4'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost/quanlymaybay?charset=utf8mb4'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-app.config['PAGE_SIZE'] = 8
-app.config['COMMENT_SIZE'] = 8
-app.config['PAGE_INF'] = 9999
 
 cloudinary.config(
     cloud_name = "dhffue7d7",
@@ -22,5 +20,5 @@ cloudinary.config(
 
 db = SQLAlchemy(app=app)
 login = LoginManager(app=app)
-
+socketio = SocketIO(app)
 

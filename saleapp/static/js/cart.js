@@ -28,7 +28,7 @@ function addToCart(id, name, price) {
 }
 
 function pay() {
-    if(confirm('Bạn chắc chắn thanh toán không?') == true) {
+    if(confirm('Ban chac chan muon thanh toan khong?') == true) {
         fetch('/api/pay', {
             method: 'post'
         }).then(function(res){
@@ -36,7 +36,7 @@ function pay() {
             return res.json()
         }).then(function(data){
             if (data.code == 200)
-                alert('Thanh toán thành công')
+                alert('Thanh toan thanh cong')
                 location.reload()
         }).catch(function(err){
             console.error(err)
@@ -45,7 +45,7 @@ function pay() {
 }
 
 function pay2() {
-    if(confirm('Bạn chắc chắn muốn thanh toán không?') == true) {
+    if(confirm('Ban chac chan muon thanh toan khong ha?') == true) {
         fetch('/api/pay2', {
             method: 'post'
         }).then(function(res){
@@ -53,7 +53,7 @@ function pay2() {
             return res.json()
         }).then(function(data){
             if (data.code == 200)
-                alert('Thanh toán thành công\n Mã hóa đơn của bạn là: ' + data.receipt + '\nHãy thanh toán trong: ' + data.time +' giờ tới' )
+                alert('Thanh toan thanh cong\n Mã hóa đơn của bạn là: ' + data.receipt + '\nHãy thanh toán trong: ' + data.time +' giờ tới' )
                 location.reload()
         }).catch(function(err){
             console.error(err)
