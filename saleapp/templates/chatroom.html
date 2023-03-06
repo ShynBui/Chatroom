@@ -11,8 +11,17 @@
 
 
 {%for i in range(n)%}
-<div> <b>{{user_send[i]}}</b>: {{message[i + 1].content}} </div>
-
+    {%if current_user.id == user_id[i]%}
+    <div style="margin-left: 500px">
+        <img src="{{user_image[i]}}" alt="" style="margin: 50px;width: 20px; border-radius: 50%">
+        <div> <b>{{user_send[i]}}</b>: {{message[i + 1].content}} </div>
+    </div>
+    {%else%}
+        <div>
+        <img src="{{user_image[i]}}" alt="" style="margin: 50px;width: 20px; border-radius: 50%">
+        <div> <b>{{user_send[i]}}</b>: {{message[i + 1].content}} </div>
+    </div>
+    {%endif%}
 {%endfor%}
 
 <div id="messages"></div>
@@ -36,7 +45,9 @@
             socket.emit('join_room', {
                 username: "{{ user_name }}",
                 room: "{{ room }}",
-                room_id: {{room_id}}
+                room_id: {{room_id}},
+                user_id: {{current_user.id}},
+                user_avatar: "{{current_user.avatar}}"
             })
 
             let message_input = document.getElementById('message_input')
@@ -48,12 +59,13 @@
                         username: "{{ user_name }}",
                         room: "{{ room }}",
                         message: message,
+                        user_id: {{current_user.id}},
+                        user_avatar: "{{current_user.avatar}}"
                         })
                 }
                 message_input.value = '';
                 message_input.focus();
 
-                console.log("đs")
                 socket.emit('save_message', {
                     message: message,
                     room: {{room_id}}
@@ -64,9 +76,33 @@
         });
 
         socket.on('receive_message', function (data) {
-            console.log(data);
+<!--            console.log(data);-->
             const newNode = document.createElement('div');
-            newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
+            const avatar = data['user_avatar'].replaceAll('&amp;', '&')
+            const img = document.createElement('img');
+            img.src = avatar;
+            img.style.width = "20px";
+            img.style.borderRadius = "50%";
+            img.style.marginLeft = "500px"
+
+            document.getElementById('messages').appendChild(img);
+
+            if (data['user_id'] == {{current_user.id}}) {
+                newNode.innerHTML =`
+<!--                <img src= avatar alt="" style="margin: 50px;width: 20px; border-radius: 50%">-->
+                <div style="margin-left: 500px">
+                <b>${data.username}:&nbsp;</b> ${data.message}
+                </div>
+                `;
+            }
+            else {
+                newNode.innerHTML = `
+                <div>
+<!--                <img src= avatar alt="" style="margin: 50px;width: 20px; border-radius: 50%">-->
+                <b>${data.username}:&nbsp;</b> ${data.message}
+                </div>
+                `;
+            }
             document.getElementById('messages').appendChild(newNode);
 
             let all_message = document.getElementById('messages')

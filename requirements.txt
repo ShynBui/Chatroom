@@ -31,3 +31,8 @@ WTForms==3.0.1
 zipp==3.11.0
 zope.event==4.6
 zope.interface==5.5.2
+## The following requirements were added by pip freeze:
+cloudinary==1.32.0
+Flask==2.2.3
+SQLAlchemy==1.4.46
+typing_extensions==4.5.0

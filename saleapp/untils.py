@@ -64,6 +64,7 @@ def get_chatroom_by_room_id(id):
     return id_room.first()
 
 
+
 def change_room_status(id, change):
     id_room = Room.query.filter(Room.id.__eq__(id)).first()
 
